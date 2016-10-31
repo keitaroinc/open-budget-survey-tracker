@@ -7,6 +7,16 @@
 
 {% block content %}
   <div class="row">
+    <div class="col-md-offset-8 col-md-4"  style="margin-bottom: 5px">
+      <a href="{{ EXPLORER_URL + '/#search' }}" target="_parent" class="btn btn-primary col-md-12">Browse budget documents library</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-8 col-md-4" style="margin-bottom: 20px">
+      <a href="https://drive.google.com/drive/folders/0ByA9wmvBrAnZN3ZrdzNzcS1JZzg" target="_blank" class="btn btn-primary col-md-12">View budget documents library in full</a>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-10" style="padding-left: 0px">
       <div class="panel panel-default">
         <div id="heading" class="panel-heading">
@@ -58,7 +68,7 @@
                 {% set code = country.code|lower %}
                 <tr>
                   <td><a href="/status/{{ country.country }}/embed">{{ gettext(country.country) }}</a></td>
-                  {% if country.obi_scores %}
+                  {% if country.obi_scores.length > 0 %}
                     <td class="text-center" data-toggle="popover" data-content="From {{ country.obi_scores|last.year }}">
                       {{ country.obi_scores|last.score }}
                     </td>
@@ -67,6 +77,7 @@
                   {% endif %}
                   {% for doc in docs %}
 		    {% set cell = undefined %}
+                  {% if country.documents.length > 0 %}
 		    {% for year in country.documents|reverse %}
                       {% if not cell %}
                         {% if doc.title in country.documents[year] %}
@@ -74,6 +85,7 @@
                         {% endif %}
                       {% endif %}
                     {% endfor %}
+                  {% endif %}
                     {% if cell %}
                       {% set parentId = "" %}
                       {% if cell.uploads %}
